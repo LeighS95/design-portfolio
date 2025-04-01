@@ -14,8 +14,6 @@ async function getNasaImage() {
 
     const data = await response.json();
 
-    console.log(data);
-
     const date = new Date(data[0].date);
     const d = date.getDate();
     const m = date.getMonth() + 1;
