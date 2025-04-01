@@ -1,42 +1,64 @@
-# syntax = docker/dockerfile:1
+# # syntax = docker/dockerfile:1
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.18.0
-FROM node:${NODE_VERSION}-slim AS base
+# # Adjust NODE_VERSION as desired
+# ARG NODE_VERSION=20.18.0
+# FROM node:${NODE_VERSION}-slim AS base
 
-LABEL fly_launch_runtime="Astro"
+# LABEL fly_launch_runtime="Astro"
 
-# Astro app lives here
+# # Astro app lives here
+# WORKDIR /app
+
+# # Set production environment
+# ENV NODE_ENV="production"
+
+
+# # Throw-away build stage to reduce size of final image
+# FROM base AS build
+
+# # Install packages needed to build node modules
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+
+# # Install node modules
+# COPY package-lock.json package.json ./
+# RUN npm ci
+
+# # Copy application code
+# COPY . .
+
+# # Build application
+# RUN npm run build
+
+
+# # Final stage for app image
+# FROM nginx
+
+# # Copy built application
+# COPY --from=build /app/dist /usr/share/nginx/html
+
+# # Start the server by default, this can be overwritten at runtime
+# EXPOSE 80
+# CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
+
+FROM node:20-slim
+
+# App dir
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
-
-
-# Throw-away build stage to reduce size of final image
-FROM base AS build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
-COPY package-lock.json package.json ./
+# Install deps
+COPY package*.json ./
 RUN npm ci
 
-# Copy application code
+# Copy source code
 COPY . .
 
-# Build application
+# Build
 RUN npm run build
 
+# Set runtime port for Fly
+ENV PORT=8080
+EXPOSE 8080
 
-# Final stage for app image
-FROM nginx
-
-# Copy built application
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 80
-CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
+# Start Astro SSR server
+CMD ["node", "./dist/server/entry.mjs"]
