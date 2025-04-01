@@ -1,0 +1,55 @@
+---
+import Card from "../../components/Card.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+---
+
+<MainLayout
+	title="About Me"
+	description="Lorem ipsum dolor sit amet"
+	pubDate={new Date("August 08 2021")}
+	heroImage="/blog-placeholder-about.jpg"
+>
+	<Card>
+		<h1 slot="card-header">About me.</h1>
+		<hr />
+		<div class="flex flex-col gap-2">
+			<span class="text-xs font-semibold text-zinc-500"
+				>Where I am from</span
+			>
+			<p>
+				I was born and raised in the UK. Growing up I always had an
+				interest in learning how things worked and being creative.
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500"
+				>What I used to do</span
+			>
+			<p>
+				After leaving school I was unsure of what I wanted to do and
+				never really new what I could do. So I started work in
+				warehousing, then logistics and after some searching I found out
+				about UI/UX desgin and software engineering, which fullfill my
+				desires to learn and create.
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500"
+				>What I do now</span
+			>
+			<p>
+				I have been a software engineer since 2018, and in all of my
+				positions I have also fulfulled roles with UI/UX. I currently
+				work at Upland Software as a <strong
+					>senior software engineer</strong
+				>, fullstack but specialising in frontend.
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500"
+				>What I am looking for</span
+			>
+			<p>
+				Impactful and purposeful work with a direvse team from around
+				the world.
+			</p>
+		</div>
+	</Card>
+</MainLayout>

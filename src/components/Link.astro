@@ -1,0 +1,10 @@
+---
+import { getLangFromUrl } from "../i18n/utils";
+
+const { href, ...props } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<a href={`/${lang}${href}`} {...props}>
+    <slot />
+</a>

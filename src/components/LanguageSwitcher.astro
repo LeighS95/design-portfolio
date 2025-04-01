@@ -1,0 +1,52 @@
+---
+import { languages } from "../i18n/ui";
+---
+
+<div
+    id="lang-select"
+    class="relative h-10 w-10 rounded shadow-lg cursor-pointer hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+>
+    <svg
+        class="absolute top-2 left-2 select-none pointer-events-none"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path d="m5 8 6 6"></path>
+        <path d="m4 14 6-6 2-3"></path>
+        <path d="M2 5h12"></path>
+        <path d="M7 2h1"></path>
+        <path d="m22 22-5-10-5 10"></path>
+        <path d="M14 18h6"></path>
+    </svg>
+    <div
+        id="lang-dropdown"
+        class="absolute top-full mt-2 rounded bg-zinc-100 transition-all opacity-0 hidden overflow-hidden"
+    >
+        <ul>
+            {
+                Object.entries(languages).map(([lang, label]) => (
+                    <li class="px-2 py-1 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700">
+                        <a href={`/${lang}`}>{label}</a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</div>
+
+<script>
+    const s = document.getElementById("lang-select");
+    const dropdown = document.getElementById("lang-dropdown");
+
+    s?.addEventListener("click", () => {
+        dropdown?.classList.toggle("hidden");
+        dropdown?.classList.toggle("opacity-100");
+    });
+</script>

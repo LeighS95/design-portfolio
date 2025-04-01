@@ -1,0 +1,115 @@
+---
+export interface Props {
+    id: string;
+    texts: string[];
+    typeSpeed?: number;
+    deleteSpeed?: number;
+    pauseAfterTyping?: number;
+    pauseAfterDeleting?: number;
+}
+
+const { id, texts } = Astro.props;
+---
+
+<type-writer
+    id={id}
+    class="h-15 text-3xl md:text-6xl"
+    data-texts={JSON.stringify(texts)}
+    data-type-speed="50"
+    data-delete-speed="70"
+    data-pause-after-typing="500"
+    data-pause-after-deleting="100"></type-writer>
+
+<script type="module">
+    class TypeWriter extends HTMLElement {
+        constructor() {
+            super();
+        }
+
+        connectedCallback() {
+            const shadow = this.attachShadow({ mode: "open" });
+            this.container = document.createElement("span");
+            this.container.style.whiteSpace = "pre";
+            this.container.style.fontFamily = "monospace";
+            shadow.appendChild(this.container);
+
+            // Get props from data-attributes
+            try {
+                const rawTexts = this.getAttribute("data-texts") || "[]";
+                const parsed = JSON.parse(rawTexts);
+                console.log(parsed);
+                this.texts = Array.isArray(parsed) ? parsed : [parsed];
+            } catch (err) {
+                console.error("Invalid texts attribute", err);
+                return;
+            }
+
+            this.typeSpeed =
+                Number(this.getAttribute("data-type-speed")) || this.typeSpeed;
+            this.deleteSpeed =
+                Number(this.getAttribute("data-delete-speed")) ||
+                this.deleteSpeed;
+            this.pauseAfterTyping =
+                Number(this.getAttribute("data-pause-after-typing")) ||
+                this.pauseAfterTyping;
+            this.pauseAfterDeleting =
+                Number(this.getAttribute("data-pause-after-deleting")) ||
+                this.pauseAfterDeleting;
+
+            if (!this.texts.length) return;
+
+            // Set fixed height to avoid jump
+            const temp = document.createElement("span");
+            temp.style.position = "absolute";
+            temp.style.visibility = "hidden";
+            temp.style.whiteSpace = "pre";
+            temp.style.font = getComputedStyle(this.container).font;
+            temp.textContent = this.texts.reduce((a, b) =>
+                a.length > b.length ? a : b,
+            );
+            document.body.appendChild(temp);
+            this.container.style.height = `${temp.offsetHeight}px`;
+            document.body.removeChild(temp);
+
+            this.startLoop();
+        }
+
+        startLoop() {
+            let currentIndex = 0;
+            let charIndex = 0;
+            let typing = true;
+
+            const loop = () => {
+                const currentText = this.texts[currentIndex];
+
+                if (typing) {
+                    if (charIndex < currentText.length) {
+                        this.container.textContent += currentText.charAt(
+                            charIndex++,
+                        );
+                        setTimeout(loop, this.typeSpeed);
+                    } else {
+                        typing = false;
+                        setTimeout(loop, this.pauseAfterTyping);
+                    }
+                } else {
+                    if (charIndex > 0) {
+                        this.container.textContent = currentText.slice(
+                            0,
+                            --charIndex,
+                        );
+                        setTimeout(loop, this.deleteSpeed);
+                    } else {
+                        typing = true;
+                        currentIndex = (currentIndex + 1) % this.texts.length;
+                        setTimeout(loop, this.pauseAfterDeleting);
+                    }
+                }
+            };
+
+            loop();
+        }
+    }
+
+    customElements.define("type-writer", TypeWriter);
+</script>

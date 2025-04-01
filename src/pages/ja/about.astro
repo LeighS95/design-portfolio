@@ -1,0 +1,48 @@
+---
+import Card from "../../components/Card.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+---
+
+<MainLayout
+	title="私について"
+	description="Lorem ipsum dolor sit amet"
+	pubDate={new Date("August 08 2021")}
+	heroImage="/blog-placeholder-about.jpg"
+>
+	<Card>
+		<h1 slot="card-header">自己紹介</h1>
+		<hr />
+		<div class="flex flex-col gap-2">
+			<span class="text-xs font-semibold text-zinc-500"> 出身地 </span>
+			<p>
+				イギリスで生まれ育ちました。幼い頃から物事の仕組みに興味があり、創造的なことをするのが好きでした。
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500">
+				以前の職歴
+			</span>
+			<p>
+				学校を卒業した後、将来何をしたいか分からず、自分に何ができるのかも分かりませんでした。
+				そこで、最初は倉庫業務や物流の仕事を経験しながら、自分に合ったキャリアを模索しました。
+				その中でUI/UXデザインやソフトウェアエンジニアリングの世界を知り、学びと創造の欲求を満たす道を見つけました。
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500">
+				現在の仕事
+			</span>
+			<p>
+				2018年からソフトウェアエンジニアとして働いており、これまでのすべての職場でUI/UXの役割も兼任してきました。
+				現在は<strong>シニアソフトウェアエンジニア</strong>としてUpland
+				Softwareに勤務しており、
+				フルスタックとして働きつつ、特にフロントエンドを専門としています。
+			</p>
+
+			<span class="text-xs font-semibold text-zinc-500">
+				今後の目標
+			</span>
+			<p>
+				世界中の多様なチームとともに、影響力があり、意義のある仕事に取り組みたいと考えています。
+			</p>
+		</div>
+	</Card>
+</MainLayout>

@@ -1,0 +1,177 @@
+---
+import Card from "../../components/Card.astro";
+import Link from "../../components/Link.astro";
+import NasaImage from "../../components/NasaImage.astro";
+import PhoneMockup from "../../components/PhoneMockup.astro";
+import Github from "../../icons/github.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import TravelApp from "../../projects/TravelApp.astro";
+import Me from "../../../public/assets/me.jpeg";
+import TypeWriter from "../../components/TypeWriter.astro";
+---
+
+<MainLayout title="Home" description="Lorem ipsum dolor sit amet">
+	<section
+		class="h-[80%] flex flex-col gap-8 p-8 lg:justify-between lg:flex-row lg:pb-42"
+	>
+		<div
+			class="flex flex-2 flex-col gap-4 text-xl md:text-2xl justify-center items-center lg:items-start"
+		>
+			<div class="flex flex-col gap-4 flex-wrap">
+				<div class="flex justify-start items-center gap-3 flex-wrap">
+					<span
+						class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800"
+						>👋</span
+					>
+					<span class="text-nowrap">こんにちは,</span>
+					<span
+						class="px-4 py-2 rounded-full text-zinc-100 bg-blue-500"
+					>
+						スティーブン
+					</span>
+					<span class="text-nowrap">です</span>
+				</div>
+				<TypeWriter
+					id="typing"
+					texts={[
+						"UI/UXデザイナー",
+						"設計エンジニア",
+						"ブランドデザイナー",
+						"ソフトウェアエンジニア",
+					]}
+				/>
+			</div>
+			<div class="mt-4">
+				<Link
+					href="/contact"
+					class="px-4 py-2 text-xl rounded-full text-zinc-100 bg-blue-500"
+				>
+					話しましょう
+				</Link>
+			</div>
+		</div>
+		<div class="flex flex-1 rounded-full overflow-hidden">
+			<img src={Me.src} />
+		</div>
+	</section>
+	<div class="grid gap-2 grid-cols-1 lg:grid-cols-2">
+		<section>
+			<Card>
+				<slot name="card-header">
+					<h3 class="font-semibold">
+						Stephen Leigh
+						<span class="opacity-50"> - 設計と開発。</span>
+					</h3>
+				</slot>
+				<hr class="my-3" />
+				<div class="py-4 text-lg text-black dark:text-zinc-300">
+					<p>
+						私がデザインします。<span class="text-zinc-500">
+							クリエイティブなデザインでも、システム設計の計画でも、私はプロジェクトを理解するために草稿を作成して繰り返し、ユーザー、クライアント、開発者向けのデザインの作成作業を開始します。</span
+						>
+					</p>
+					<p>
+						私が建てます。<span class="text-zinc-500">
+							次のステップは作業の開始です。設計ファイルを作成して他の人にコメントしたり、開発パイプラインで成果物を完成させたりします。</span
+						>
+					</p>
+					<p>
+						バグを見つけました。<span class="text-zinc-500">
+							完璧な人間などいません。ですから、設計をチェックし、コードをレビューし、テストして不完全な部分を見つけることが常に重要です。</span
+						>
+					</p>
+					<p>
+						バグを修正します。<span class="text-zinc-500">
+							欠陥を修正する時間です。</span
+						>
+					</p>
+					<p>
+						デプロイします。<span class="text-zinc-500">
+							ようやく作業が完了し、他の人に配布できるようになりました。</span
+						>
+					</p>
+					<p>
+						私は征服する。<span class="text-zinc-500">
+							コーヒーを注いで勝利の瞬間を楽しんでください。
+							この瞬間は逃さないようにしましょう。</span
+						>
+					</p>
+					<p>
+						繰り返す...<span class="text-zinc-500">
+							サイクルが再び始まります。</span
+						>
+					</p>
+				</div>
+				<slot name="card-footer">
+					<div
+						class="flex justify-end text-zinc-500 font-bold text-sm"
+					>
+						- Me, {new Date().getFullYear()}
+					</div>
+				</slot>
+			</Card>
+		</section>
+
+		<section
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-2 gap-2"
+		>
+			<Card>
+				<PhoneMockup>
+					<TravelApp />
+				</PhoneMockup>
+			</Card>
+
+			<div
+				class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2"
+			>
+				<div class="h-full max-h-96 overflow-hidden">
+					<NasaImage />
+				</div>
+
+				<Card>
+					<slot name="card-header">
+						<div class="relative flex items-center justify-between">
+							<h5>LeighS95</h5>
+							<div class="p-3 rounded-full bg-zinc-900 shadow-sm">
+								<Github />
+							</div>
+						</div>
+					</slot>
+					<div class="py-3">
+						<p class="text-xl">
+							私のランダムな <strong>Github</strong> プロジェクトをいくつか見て、見てみましょう
+						</p>
+					</div>
+					<slot name="card-footer">
+						<a
+							href="https://github.com/leighs95"
+							target="_blank"
+							class="flex items-center justify-center gap-2 px-2 py-1 rounded-full border border-zinc-900 hover:text-white hover:bg-zinc-900 dark:border-zinc-100 cursor-pointer dark:hover:text-black dark:hover:bg-zinc-100 transition-all"
+						>
+							私のリポジトリを表示
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><path d="M15 3h6v6"></path><path
+									d="M10 14 21 3"></path><path
+									d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+								></path></svg
+							>
+						</a>
+					</slot>
+				</Card>
+			</div>
+		</section>
+
+		<section class="border-2 border-dashed border-zinc-300 rounded p-8">
+			<h2 class="text-zinc-300">もっと作品を近日公開予定！</h2>
+		</section>
+	</div>
+</MainLayout>

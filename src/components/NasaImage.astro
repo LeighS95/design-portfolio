@@ -1,0 +1,81 @@
+---
+import NasaLogo from "../../public/assets/nasa_logo.png";
+
+async function getNasaImage() {
+    const response = await fetch(
+        // "https://api.nasa.gov/planetary/apod?api_key=dBMCi6aUeZAbP1PEhO8soCmJhTQbgxjfVTaWcCgz",
+        "https://api.nasa.gov/EPIC/api/natural/images?api_key=dBMCi6aUeZAbP1PEhO8soCmJhTQbgxjfVTaWcCgz",
+    );
+
+    if (!response.ok)
+        return {
+            url: "https://placehold.co/400x500?text=Not+Found",
+        };
+
+    const data = await response.json();
+
+    console.log(data);
+
+    const date = new Date(data[0].date);
+    const d = date.getDate();
+    const m = date.getMonth() + 1;
+    const mStr = m < 10 ? `0${m}` : m;
+    const y = date.getFullYear();
+
+    return {
+        url: `https://epic.gsfc.nasa.gov/archive/natural/${y}/${mStr}/${d}/png/${data[0].image}.png`,
+        explaination: data[0].caption,
+    };
+}
+
+const { url, explaination } = await getNasaImage();
+---
+
+<div
+    class="relative w-full h-full overflow-hidden rounded shadow-md bg-zinc-100 dark:bg-zinc-800"
+>
+    <div class="absolute top-2 right-2">
+        <img src={NasaLogo.src} alt="nasa logo" height="48" width="48" />
+    </div>
+    <img
+        id="nasa-img-of-the-day"
+        src={url}
+        alt={explaination}
+        loading="lazy"
+        class="object-cover w-full h-full opacity-0 rounded transition-opacity duration-500"
+    />
+    <div
+        class="absolute inset-0 flex items-center justify-center"
+        id="nasa-loader"
+    >
+        <svg
+            class="animate-spin h-10 w-10 text-zinc-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"></circle>
+            <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 000 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+            ></path>
+        </svg>
+    </div>
+
+    <script>
+        // Remove loader after image loads
+        const img = document.querySelector("#nasa-img-of-the-day");
+        const loader = document.getElementById("nasa-loader");
+        img?.addEventListener("load", () => {
+            loader?.remove();
+            img.classList.remove("opacity-0");
+        });
+    </script>
+</div>
