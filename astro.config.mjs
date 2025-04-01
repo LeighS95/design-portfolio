@@ -31,4 +31,7 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone' // Recommended for Fly.io / Docker
   }),
+  server: {
+    host: true,
+  }
 });
